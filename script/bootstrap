@@ -33,10 +33,6 @@ setup_gitconfig () {
     info 'setup gitconfig'
 
     git_credential='cache'
-    if [ "$(uname -s)" == "Darwin" ]
-    then
-      git_credential='osxkeychain'
-    fi
 
     user ' - What is your github author name?'
     read -e git_authorname
@@ -137,20 +133,22 @@ install_dotfiles () {
   done
 }
 
+pre_bootstrap () {
+  # install all packages except ssh and git
+  info 'installing packages'
+  sudo apt-get -y install zsh
+}
+
+post_bootstrap () {
+  if [ `getent passwd $LOGNAME | cut -d: -f7` != `which zsh` ]; then
+    sudo chsh -s `which zsh`
+  fi
+}
+
+pre_bootstrap
 setup_gitconfig
 install_dotfiles
-
-# If we're on a Mac, let's install and setup homebrew.
-if [ "$(uname -s)" == "Darwin" ]
-then
-  info "installing dependencies"
-  if source bin/dot > /tmp/dotfiles-dot 2>&1
-  then
-    success "dependencies installed"
-  else
-    fail "error installing dependencies"
-  fi
-fi
+post_bootstrap
 
 echo ''
 echo '  All installed!'
