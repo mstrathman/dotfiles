@@ -1,0 +1,18 @@
+#!/bin/sh
+
+function start_agent {
+    echo "Initialising new SSH agent..."
+    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+    echo succeeded
+    chmod 600 "${SSH_ENV}"
+    . "${SSH_ENV}" > /dev/null
+    /usr/bin/ssh-add;
+
+    # add keys
+    for key in `ls ~/.ssh/*.rsa`; do
+        echo "Adding key: $key"
+        if ! [ `ssh-add -l | grep $key` ]; then
+            ssh-add $key
+        fi
+    done
+}

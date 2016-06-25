@@ -39,7 +39,13 @@ setup_gitconfig () {
     user ' - What is your github author email?'
     read -e git_authoremail
 
+    if ! [ -f ~/.ssh/git.rsa ]; then
+        ssh-keygen -t rsa -b 4096 -C $git_authoremail -f ~/.ssh/git.rsa
+        chmod 600 ~/.git.rsa
+    fi
+
     sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
+
 
     success 'gitconfig'
   fi
@@ -136,7 +142,13 @@ install_dotfiles () {
 pre_bootstrap () {
   # install all packages except ssh and git
   info 'installing packages'
+  sudo apt-get -y install vim
+  sudo apt-get -y install tmux
+  sudo apt-get -y install git
+  sudo apt-get -y install make
+  sudo apt-get -y install docker
   sudo apt-get -y install zsh
+  sudo apt-get -y install curl
 }
 
 post_bootstrap () {
@@ -145,9 +157,14 @@ post_bootstrap () {
   fi
 }
 
+# pull down packages
 pre_bootstrap
+
+# setup git and dotfiles
 setup_gitconfig
 install_dotfiles
+
+# do any post config
 post_bootstrap
 
 echo ''
