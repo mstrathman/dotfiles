@@ -39,13 +39,16 @@ setopt complete_aliases
 
 zle -N newtab
 
-bindkey '^[^[[D' backward-word
-bindkey '^[^[[C' forward-word
-bindkey '^[[5D' beginning-of-line
-bindkey '^[[5C' end-of-line
-bindkey '^[[3~' delete-char
-bindkey '^[^N' newtab
-bindkey '^?' backward-delete-char
+bindkey '^B' backward-word
+bindkey '^A' beginning-of-line
+bindkey '^E' end-of-line
+bindkey '^H' backward-character
+bindkey '^K' kill-line
+bindkey '^L' forward-character
+bindkey '^R' history-incremental-search-backward
+bindkey '^S' history-incremental-search-forward
+bindkey '^U' kill-whole-line
+bindkey '^W' forward-word
 
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
