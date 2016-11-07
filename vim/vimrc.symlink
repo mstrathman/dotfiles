@@ -36,6 +36,7 @@ set viminfo='20,<50,s10,h,%
 set history=1000
 
 " set color scheme
+set rtp+=/bld_linux/ir-mstrathman/system/pilot/go/goroot/misc/vim
 syntax enable
 colorscheme frozen
 
@@ -74,3 +75,5 @@ set tags+=$HOME/.vim/tags/curl
 set tags+=$HOME/.vim/tags/httpd
 set tags+=$HOME/.vim/tags/libmozjs
 set tags+=$HOME/.vim/tags/libxml2
+
+nnoremap / /\v
