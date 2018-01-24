@@ -75,6 +75,3 @@ set tags+=$HOME/.vim/tags/curl
 set tags+=$HOME/.vim/tags/httpd
 set tags+=$HOME/.vim/tags/libmozjs
 set tags+=$HOME/.vim/tags/libxml2
-
-nnoremap / /\v
-nnoremap ? ?\v

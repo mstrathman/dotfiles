@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# Usage: fb <irp*-c*[-[sb]*]>
+# Description: go to a flash blade cluster, fm, or blade
+# 
+# Requires: 'shopt ksh_glob' for zsh or 'shopt extglob' for bash
+
+fb () {
+    ssh_opts='-o PubkeyAuthentication=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=10'
+    cluster=${1%%?(-[bs]*)}
+    blade=${1##*-b?(0)}
+    fm=${1##*-s?(0)}
+    password=welcome
+    echo $password
+    if [[ $fm != $1 ]]; then
+        cmd="sshpass -p $password ssh $ssh_opts ir@$cluster-$fm" 
+    else
+        if [[ $blade != $1 ]]; then
+            cmd="sshpass -p $password ssh $ssh_opts -o ProxyCommand=\"sshpass -p welcome ssh $ssh_opts ir@$cluster nc ir$blade 22\" ir@ir$blade" 
+        else
+            cmd="sshpass -p $password ssh $ssh_opts ir@$cluster"
+        fi
+    fi
+    eval $cmd
+}
