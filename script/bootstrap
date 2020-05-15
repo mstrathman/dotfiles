@@ -41,7 +41,7 @@ setup_gitconfig () {
 
     if ! [ -f ~/.ssh/git.rsa ]; then
         ssh-keygen -t rsa -b 4096 -C $git_authoremail -f ~/.ssh/git.rsa
-        chmod 600 ~/.git.rsa
+        chmod 600 ~/.ssh/git.rsa
     fi
 
     sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
