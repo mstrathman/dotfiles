@@ -39,6 +39,8 @@ setup_gitconfig () {
     user ' - What is your github author email?'
     read -e git_authoremail
 
+    [ -d ~/.ssh ] || mkdir ~/.ssh
+
     if ! [ -f ~/.ssh/git.rsa ]; then
         ssh-keygen -t rsa -b 4096 -C $git_authoremail -f ~/.ssh/git.rsa
         chmod 600 ~/.ssh/git.rsa
